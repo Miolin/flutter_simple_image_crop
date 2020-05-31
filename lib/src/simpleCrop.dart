@@ -14,36 +14,36 @@ class ImgCrop extends StatefulWidget {
   final String chipShape; // 裁剪区域形状
   const ImgCrop(
       {Key key,
-      this.image,
-      this.maximumScale: 2.0,
-      this.onImageError,
-      this.chipRadius = 150,
-      this.chipShape = 'circle'})
+        this.image,
+        this.maximumScale: 2.0,
+        this.onImageError,
+        this.chipRadius = 150,
+        this.chipShape = 'circle'})
       : assert(image != null),
         assert(maximumScale != null),
         super(key: key);
 
   ImgCrop.file(File file,
       {Key key,
-      double scale = 1.0,
-      this.maximumScale: 2.0,
-      this.onImageError,
-      this.chipRadius = 150,
-      this.chipShape = 'circle'})
+        double scale = 1.0,
+        this.maximumScale: 2.0,
+        this.onImageError,
+        this.chipRadius = 150,
+        this.chipShape = 'circle'})
       : image = FileImage(file, scale: scale),
         assert(maximumScale != null),
         super(key: key);
 
   ImgCrop.asset(
-    String assetName, {
-    Key key,
-    AssetBundle bundle,
-    String package,
-    this.chipRadius = 150,
-    this.maximumScale: 2.0,
-    this.onImageError,
-    this.chipShape = 'circle',
-  })  : image = AssetImage(assetName, bundle: bundle, package: package),
+      String assetName, {
+        Key key,
+        AssetBundle bundle,
+        String package,
+        this.chipRadius = 150,
+        this.maximumScale: 2.0,
+        this.onImageError,
+        this.chipShape = 'circle',
+      })  : image = AssetImage(assetName, bundle: bundle, package: package),
         assert(maximumScale != null),
         super(key: key);
 
@@ -79,11 +79,11 @@ class ImgCropState extends State<ImgCrop> with TickerProviderStateMixin, Drag {
     return _view.isEmpty
         ? null
         : Rect.fromLTWH(
-            _area.left * _view.width / _scale - _view.left,
-            _area.top * _view.height / _scale - _view.top,
-            _area.width * _view.width / _scale,
-            _area.height * _view.height / _scale,
-          );
+      _area.left * _view.width / _scale - _view.left,
+      _area.top * _view.height / _scale - _view.top,
+      _area.width * _view.width / _scale,
+      _area.height * _view.height / _scale,
+    );
   }
 
   bool get _isEnabled => !_view.isEmpty && _image != null;
@@ -268,22 +268,22 @@ class ImgCropState extends State<ImgCrop> with TickerProviderStateMixin, Drag {
 
   Rect _getViewInBoundaries(double scale) {
     return Offset(
-          max(
-            min(
-              _view.left,
-              _area.left * _view.width / scale,
-            ),
-            _area.right * _view.width / scale - 1.0,
-          ),
-          max(
-            min(
-              _view.top,
-              _area.top * _view.height / scale,
-            ),
-            _area.bottom * _view.height / scale - 1.0,
-          ),
-        ) &
-        _view.size;
+      max(
+        min(
+          _view.left,
+          _area.left * _view.width / scale,
+        ),
+        _area.right * _view.width / scale - 1.0,
+      ),
+      max(
+        min(
+          _view.top,
+          _area.top * _view.height / scale,
+        ),
+        _area.bottom * _view.height / scale - 1.0,
+      ),
+    ) &
+    _view.size;
   }
 
   double get _maximumScale => widget.maximumScale;
@@ -298,7 +298,7 @@ class ImgCropState extends State<ImgCrop> with TickerProviderStateMixin, Drag {
     _activate(0);
 
     final targetScale =
-        _scale.clamp(_minimumScale, _maximumScale); //NOTE: 处理缩放边界值
+    _scale.clamp(_minimumScale, _maximumScale); //NOTE: 处理缩放边界值
     _scaleTween = Tween<double>(
       begin: _scale,
       end: targetScale,
@@ -369,12 +369,12 @@ class _CropPainter extends CustomPainter {
 
   _CropPainter(
       {this.image,
-      this.view,
-      this.ratio,
-      this.area,
-      this.scale,
-      this.active,
-      this.chipShape});
+        this.view,
+        this.ratio,
+        this.area,
+        this.scale,
+        this.active,
+        this.chipShape});
 
   @override
   bool shouldRepaint(_CropPainter oldDelegate) {
@@ -386,17 +386,17 @@ class _CropPainter extends CustomPainter {
         oldDelegate.scale != scale;
   }
 
-  currentRact(size) {
+  currentRect(size) {
     return Rect.fromLTWH(
-      _kCropHandleSize / 2,
-      _kCropHandleSize / 2,
-      size.width - _kCropHandleSize,
-      size.height - _kCropHandleSize,
+      0,
+      0,
+      size.width,
+      size.height,
     );
   }
 
   Rect currentBoundaries(size) {
-    var rect = currentRact(size);
+    var rect = currentRect(size);
     return Rect.fromLTWH(
       rect.width * area.left,
       rect.height * area.top,
@@ -407,7 +407,7 @@ class _CropPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = currentRact(size);
+    final rect = currentRect(size);
 
     canvas.save();
     canvas.translate(rect.left, rect.top);
@@ -460,7 +460,7 @@ class _CropPainter extends CustomPainter {
     canvas.drawRect(Rect.fromLTRB(0.0, 0.0, rect.width, rect.height), paint);
     paint
       ..isAntiAlias = true
-      ..color = Colors.white
+      ..color = Colors.transparent
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
     if (chipShape == 'rect') {
